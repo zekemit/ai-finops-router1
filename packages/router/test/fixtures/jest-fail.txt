@@ -1,0 +1,48 @@
+FAIL ./sample.test.js
+  math
+    ✓ adds (2 ms)
+    ✓ multiplies
+    ✕ subtracts wrongly (1 ms)
+    ○ skipped skipped one
+  strings
+    ✓ uppercases (1 ms)
+    ✕ concats wrongly
+
+  ● math › subtracts wrongly
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 3
+    Received: 2
+
+      2 |   it("adds", () => expect(1 + 1).toBe(2));
+      3 |   it("multiplies", () => expect(2 * 3).toBe(6));
+    > 4 |   it("subtracts wrongly", () => expect(5 - 3).toBe(3));
+        |                                               ^
+      5 |   it.skip("skipped one", () => {});
+      6 | });
+      7 | describe("strings", () => {
+
+      at Object.toBe (sample.test.js:4:47)
+
+  ● strings › concats wrongly
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "abc"
+    Received: "ab"
+
+       7 | describe("strings", () => {
+       8 |   it("uppercases", () => expect("a".toUpperCase()).toBe("A"));
+    >  9 |   it("concats wrongly", () => expect("a" + "b").toBe("abc"));
+         |                                                 ^
+      10 | });
+      11 |
+
+      at Object.toBe (sample.test.js:9:49)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 1 skipped, 3 passed, 6 total
+Snapshots:   0 total
+Time:        0.265 s
+Ran all test suites.

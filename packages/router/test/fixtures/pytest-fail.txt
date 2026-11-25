@@ -1,0 +1,35 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.1.1, pluggy-1.6.0
+rootdir: /work/sample
+plugins: anyio-4.15.1
+collected 6 items
+
+test_sample.py ..FsF.                                                    [100%]
+
+=================================== FAILURES ===================================
+____________________________ test_subtracts_wrongly ____________________________
+
+    def test_subtracts_wrongly():
+>       assert 5 - 3 == 3
+E       assert (5 - 3) == 3
+
+test_sample.py:10: AssertionError
+_____________________________ test_concat_wrongly ______________________________
+
+    def test_concat_wrongly():
+>       assert "a" + "b" == "abc"
+E       AssertionError: assert 'ab' == 'abc'
+E         
+E         - abc
+E         ?   -
+E         + ab
+
+test_sample.py:17: AssertionError
+=========================== short test summary info ============================
+FAILED test_sample.py::test_subtracts_wrongly - assert (5 - 3) == 3
+FAILED test_sample.py::test_concat_wrongly - AssertionError: assert 'ab' == 'abc'
+  
+  - abc
+  ?   -
+  + ab
+==================== 2 failed, 3 passed, 1 skipped in 0.03s ====================

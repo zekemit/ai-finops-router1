@@ -1,0 +1,15 @@
+=== RUN   TestAdds
+--- PASS: TestAdds (0.00s)
+=== RUN   TestMultiplies
+--- PASS: TestMultiplies (0.00s)
+=== RUN   TestSubtractsWrongly
+    sample_test.go:7: want 3 got 2
+--- FAIL: TestSubtractsWrongly (0.00s)
+=== RUN   TestSkipped
+    sample_test.go:8: not now
+--- SKIP: TestSkipped (0.00s)
+=== RUN   TestUpper
+--- PASS: TestUpper (0.00s)
+FAIL
+FAIL	sample	0.002s
+FAIL

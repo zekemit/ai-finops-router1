@@ -3,7 +3,7 @@ AI-FINOPS-ROUTER — PROGRESS TRACKER
 Update this file at the end of every phase, in the same commit as the work.
 Resume rule: continue from the first unchecked [ ] item.
 
-CURRENT PHASE : 2 (complete) -> next: PHASE 3 (router)
+CURRENT PHASE : 3 (complete) -> next: PHASE 4 (dashboard)
 LAST UPDATED  : 2026-11-25
 BRANCH        : main
 
@@ -57,17 +57,42 @@ KNOWN LIMITATIONS (do not paper over)
     table (e.g. haiku-5-5, which has a >100K-token price tier) are reported as UNPRICED, never guessed.
   - Fast-mode (speed:"fast") price multipliers are not modelled.
 
-PHASE 3 — DETERMINISTIC ROUTER (packages/router)
-------------------------------------------------
-[ ] Package scaffold linked to @ai-finops/interceptor
-[ ] Rule: lint check
-[ ] Rule: JSON validation / formatting
-[ ] Rule: grep / regex file search
-[ ] Rule: test-output summary
-[ ] ROI metrics: offloaded_savings_usd, avoided_tokens per intercepted call
-[ ] Tests: deterministic tasks bypass LLM, dollars saved computed correctly
-[ ] Update tests.json + progress.txt
-[ ] Commit: "feat(router): add deterministic script offloading engine and ROI metrics"
+PHASE 3 — DETERMINISTIC ROUTER (packages/router)  [COMPLETE]
+------------------------------------------------------------
+[x] Package scaffold; links to @ai-finops/interceptor via npm workspace (public entry point only)
+[x] Rule: lint-check     (6 hygiene rules: trailing spaces, mixed indent, max-len, eol-last, debugger, conflict markers)
+[x] Rule: json-format    (validate / pretty / minify / sort keys / JSON-Schema-subset validation)
+[x] Rule: grep-search    (literal or regex, case-insensitive, ReDoS-guarded, grep-style output)
+[x] Rule: test-summary   (vitest, jest, pytest, go test -v; counts + failure list)
+[x] ROI: offloaded_savings_usd + avoided_tokens per call (OffloadRecord), summarizeOffloads, combineSavings
+[x] Tests: deterministic tasks BYPASS the LLM (spy asserts fallback called 0x), reasoning tasks reach it 1x,
+    savings dollars hand-computed against interceptor pricing. 170 tests / 9 files.
+[x] Mutation-checked 6 router behaviours (reasoning guard, bypass, context tokens, output rate,
+    combined counterfactual, route() purity) + 3 script behaviours (number preservation, ReDoS guard,
+    pytest errors): every mutant killed.
+[x] Validated against real data: grep == GNU grep -n (4 patterns); JSON formatter byte-identical to
+    JSON.stringify on the real 55KB package-lock.json; test parser reads live vitest run (158/158).
+[x] tests.json regenerated: 328/328
+[x] Commit: "feat(router): add deterministic script offloading engine and ROI metrics"
+
+DESIGN DECISIONS (router)
+  - Offload only what is fully MECHANICAL. Each rule: (1) does the prompt concern my domain? (2) reasoning
+    verb (fix/explain/why/review/...)? -> decline (3) positive intent? Explicit task.operation skips 1-3.
+  - JSON formatting uses a token-preserving parser, NOT JSON.parse/stringify, which corrupts data
+    (12345678901234567890 -> ...67000, 1.0 -> 1, duplicate keys dropped).
+  - Anything the local script cannot fully evaluate is DECLINED, not approximated: JSON Schema $ref/if/format,
+    catastrophic-backtracking regexes, unrecognised test-runner output, oversized (>2M chars) input.
+  - A throwing script never fails the agent: the rule is skipped and the LLM handles the task.
+  - route() is pure (logging happens only in handle()), so dry runs cannot double-count savings.
+  - Savings are a MODELED COUNTERFACTUAL, conservative by construction: payload at plain input rate (not the
+    1.25x write rate), output = script answer with no model preamble, re-read context = 0 unless the task
+    states contextTokens. Token counts are estimated (chars/4; injectable) because the call never happened.
+    Unpriced models are still offloaded but claim $0 and are counted in unpricedCalls.
+
+KNOWN LIMITATIONS (router)
+  - lint-check is a built-in hygiene linter over in-memory files, not a wrapper around a project's ESLint.
+  - go test is supported with -v output (or any output containing --- PASS/FAIL/SKIP lines) only.
+  - Rule intent detection is English-prompt regex; use task.operation for reliable routing.
 
 PHASE 4 — EXECUTIVE FINOPS DASHBOARD (apps/dashboard)
 -----------------------------------------------------

@@ -1,0 +1,52 @@
+
+ RUN  v5.1.2 /work/sample
+
+ ❯ sample.test.ts (6 tests | 2 failed | 1 skipped) 9ms
+   ❯ math (4)
+     × subtracts wrongly 5ms
+   ❯ strings (2)
+     × concats wrongly 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  sample.test.ts > math > subtracts wrongly
+AssertionError: expected 2 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 2
+
+ ❯ sample.test.ts:5:47
+      3|   it("adds", () => expect(1 + 1).toBe(2));
+      4|   it("multiplies", () => expect(2 * 3).toBe(6));
+      5|   it("subtracts wrongly", () => expect(5 - 3).toBe(3));
+       |                                               ^
+      6|   it.skip("skipped one", () => {});
+      7| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  sample.test.ts > strings > concats wrongly
+AssertionError: expected 'ab' to be 'abc' // Object.is equality
+
+Expected: "abc"
+Received: "ab"
+
+ ❯ sample.test.ts:10:49
+      8| describe("strings", () => {
+      9|   it("uppercases", () => expect("a".toUpperCase()).toBe("A"));
+     10|   it("concats wrongly", () => expect("a" + "b").toBe("abc"));
+       |                                                 ^
+     11| });
+     12|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 3 passed | 1 skipped (6)
+   Start at  15:25:05
+   Duration  134ms (transform 49%, import 22%, tests 22%, worker 6%)
+
