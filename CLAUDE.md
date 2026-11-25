@@ -58,3 +58,12 @@ apps/dashboard         @ai-finops/dashboard     Next.js App Router executive UI 
 - No placeholder `TODO` comments in core logic. Ship complete implementations.
 - Verify before claiming done: run the commands, read the output.
 - Commit messages follow Conventional Commits (`feat(scope):`, `chore:`, `fix:`, `test:`, `docs:`).
+
+## Dashboard notes
+
+- The simulator is **seed-only**: no `Math.random`, no clock, no random sort comparators in `apps/dashboard/src/lib`. The page is
+  rendered in Node and again in the browser; any engine-dependent behaviour causes a hydration mismatch. `test/determinism.test.ts`
+  enforces this and pins the seed-42 opening figures. If you change the generator, re-pin them and re-check the page in a browser.
+- Next 16 does not lint during `next build`. `npm run build` therefore runs `eslint .` first.
+- Stop a production server with `pkill -f next-server`.
+- Unit tests prove logic, not pixels or hydration: after UI changes, build, serve and look at it in a browser.

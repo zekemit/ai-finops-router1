@@ -1,13 +1,88 @@
 {
   "generatedBy": "npm run record-tests",
-  "generatedAt": "2026-11-25T15:36:09.951Z",
+  "generatedAt": "2026-11-25T15:59:12.219Z",
   "summary": {
-    "total": 328,
-    "passed": 328,
+    "total": 419,
+    "passed": 419,
     "failed": 0,
     "skipped": 0
   },
   "packages": {
+    "@ai-finops/dashboard": {
+      "status": "passed",
+      "phase": "phase4",
+      "total": 91,
+      "passed": 91,
+      "failed": 0,
+      "skipped": 0,
+      "files": [
+        {
+          "file": "test/determinism.test.ts",
+          "status": "passed",
+          "total": 3,
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/engine.test.ts",
+          "status": "passed",
+          "total": 12,
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/playback.test.ts",
+          "status": "passed",
+          "total": 13,
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/rng.test.ts",
+          "status": "passed",
+          "total": 11,
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/sample-data.test.ts",
+          "status": "passed",
+          "total": 11,
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/scenario.test.ts",
+          "status": "passed",
+          "total": 8,
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/sprint.test.ts",
+          "status": "passed",
+          "total": 12,
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/view-model.test.ts",
+          "status": "passed",
+          "total": 21,
+          "passed": 21,
+          "failed": 0,
+          "skipped": 0
+        }
+      ],
+      "failures": []
+    },
     "@ai-finops/interceptor": {
       "status": "passed",
       "phase": "phase2",

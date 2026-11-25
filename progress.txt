@@ -3,7 +3,7 @@ AI-FINOPS-ROUTER — PROGRESS TRACKER
 Update this file at the end of every phase, in the same commit as the work.
 Resume rule: continue from the first unchecked [ ] item.
 
-CURRENT PHASE : 3 (complete) -> next: PHASE 4 (dashboard)
+CURRENT PHASE : 4 (complete) -> ALL PHASES DONE
 LAST UPDATED  : 2026-11-25
 BRANCH        : main
 
@@ -94,13 +94,40 @@ KNOWN LIMITATIONS (router)
   - go test is supported with -v output (or any output containing --- PASS/FAIL/SKIP lines) only.
   - Rule intent detection is English-prompt regex; use task.operation for reliable routing.
 
-PHASE 4 — EXECUTIVE FINOPS DASHBOARD (apps/dashboard)
------------------------------------------------------
-[ ] Next.js (App Router) + Tailwind + Lucide + charts scaffold
-[ ] 4 KPI cards: Total Spend, Cost/Feature Shipped, Savings ($ and %), Active Subagent Burn Rate
-[ ] Seeded telemetry with >=65% cost reduction (caching + routing)
-[ ] "Simulate Multi-Agent Sprint" live simulator (runaway-loop detection + offload wins)
-[ ] `npm run build` passes with zero TypeScript/lint errors
-[ ] README.md with Mermaid architecture diagram + quickstart
-[ ] Update progress.txt
-[ ] Commit: "feat(dashboard): build executive FinOps UI with live multi-agent simulator"
+PHASE 4 — EXECUTIVE FINOPS DASHBOARD (apps/dashboard)  [COMPLETE]
+-----------------------------------------------------------------
+[x] Next.js 16 (App Router, Turbopack) + Tailwind 4 + lucide-react + Recharts 3; workspace packages via transpilePackages
+[x] 4 KPI cards: Total spend | Cost per feature shipped | Saved by caching and scripts ($ and %) | Active subagent burn rate
+[x] Hero chart: cumulative paid vs. "without caching and scripts"; the wedge between them is the saving; table view beneath
+[x] Seeded telemetry: 3 sprints / 12 features; combined savings 76.9%-78.3% across 25 seeds (test requires >=65% for every seed)
+[x] "Simulate Multi-Agent Sprint": streams a live sprint (speeds 8x/32x/128x, pause/resume/reset, new seed). Mechanical tasks are
+    answered by the REAL router scripts; the REAL loop detector fires and a circuit breaker blocks further repeats
+[x] 91 dashboard tests (test-first) over rng, payload generators, sprint generator, engine, scenario, view-model, playback
+[x] Mutation-checked: breaker, session scoping, prevented-$, speed multiplier, idle burn rate: every mutant killed
+[x] `npm run build` = eslint --max-warnings clean + next build, from a CLEAN .next: zero TypeScript errors, zero lint errors
+[x] Verified in headless Chromium against the production build: idle, live sprint to completion, mobile (390px, no horizontal
+    overflow), dark mode, console clean (no hydration errors)
+[x] README.md with two Mermaid diagrams (both rendered in Chromium and reviewed) + quickstart
+[x] ./init.sh verified end to end: install -> 419 tests -> typecheck -> dev server answering on :3000
+[x] tests.json regenerated: 419/419
+[x] Commit: "feat(dashboard): build executive FinOps UI with live multi-agent simulator"
+
+BUGS FOUND BY RUNNING IT (not by unit tests)
+  - React hydration error #418: server rendered $6.77, browser $6.88 for the same seed. Cause: a shuffle written as
+    .sort(() => rng.next() - 0.5); a stateful comparator makes rng consumption depend on each engine's sort internals,
+    so the "seeded" simulator was not portable between Node and Chromium. Fixed with a Fisher-Yates rng.shuffle, a
+    guard test banning comparator shuffles/Math.random/clock in src/lib, and a pinned seed-42 snapshot.
+  - "Tokens avoided" headline counted cached context the avoided call would merely have re-read (2.5M tokens for 36 JSON
+    checks). Now counts fresh tokens only (5,197); the re-read context stays priced in the dollars.
+
+HONEST READING OF THE DEMO NUMBERS
+  - The 77% is driven by the scenario's assumptions: simulated agents read ~96% of their prompt from cache (the figure a real
+    Claude Code session showed). Caching is ~93% of the dollars saved; scripts ~7%.
+  - "44% of tasks never reached a model" is FIXED by the scenario's task mix (7 of every 15 tasks mechanical by design). It is
+    not a finding. Real numbers require pointing `npm run finops` at real logs.
+  - Script dollars depend on the contextTokens the simulator assigns each task (a conservative 0 unless stated).
+
+OPERATIONAL NOTES
+  - Next 16 no longer lints during `next build`; `npm run build` runs `eslint .` first to keep the zero-lint-errors guarantee.
+  - To stop a production server use `pkill -f next-server` (the process is named next-server, not "next start").
+  - gh CLI was unauthenticated all session (invalid GH_TOKEN); no remote exists, so nothing was pushed.

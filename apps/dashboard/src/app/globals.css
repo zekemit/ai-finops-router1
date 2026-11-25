@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-rule: var(--rule);
+  --color-axis: var(--axis);
+  --color-saved: var(--saved);
+  --color-saved-fill: var(--saved-fill);
+  --color-alert: var(--alert);
+  --color-without: var(--without);
+}
+
+/*
+ * Tokens. Agent colours are the first four slots of the validated categorical palette
+ * (adjacent-pair CVD and normal-vision gates pass); dark values are the same hues re-stepped for the dark surface.
+ */
+:root {
+  color-scheme: light;
+  --page: #f2f4f7;
+  --surface: #ffffff;
+  --ink: #14181f;
+  --ink-2: #5b6472;
+  --rule: #e3e7ec;
+  --axis: #c5cbd3;
+  --saved: #006c10;
+  --saved-fill: #0aac23;
+  --alert: #dc3c3d;
+  --without: #8c95a3;
+  --agent-pm: #257de0;
+  --agent-arch: #f47230;
+  --agent-sec: #00b894;
+  --agent-rel: #f2a600;
+  --agent-other: #8c95a3;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page: #0e1117;
+    --surface: #161b22;
+    --ink: #eef1f5;
+    --ink-2: #9aa4b2;
+    --rule: #262c35;
+    --axis: #3a424d;
+    --saved: #53c556;
+    --saved-fill: #0aac23;
+    --alert: #eb6263;
+    --without: #7a8494;
+    --agent-pm: #338ced;
+    --agent-arch: #e76624;
+    --agent-sec: #00a888;
+    --agent-rel: #d28e05;
+    --agent-other: #7a8494;
+  }
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.45;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Live figures must not shimmy as digits change. */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* One deliberate motion: a feed row settles in when it arrives, tinted by what it means. */
+@keyframes arrive {
+  from {
+    background-color: color-mix(in srgb, var(--tint, var(--ink)) 16%, transparent);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+.arrive {
+  animation: arrive 1.4s ease-out;
+}
+
+@keyframes beat {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.5);
+  }
+}
+.beat {
+  animation: beat 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrive,
+  .beat {
+    animation: none;
+  }
+}
