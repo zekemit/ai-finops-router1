@@ -17,6 +17,7 @@ const PHASE_OF: Readonly<Record<string, string>> = {
   "@ai-finops/interceptor": "phase2",
   "@ai-finops/router": "phase3",
   "@ai-finops/dashboard": "phase4",
+  "@ai-finops/site": "phase5",
 };
 
 function isRec(value: unknown): value is Rec {

@@ -19,6 +19,7 @@ Never leave uncommitted work between phases. Commit after each phase passes its 
 packages/interceptor   @ai-finops/interceptor   telemetry parsing + cost engine   (no internal deps)
 packages/router        @ai-finops/router        deterministic offloading engine    (depends on interceptor)
 apps/dashboard         @ai-finops/dashboard     Next.js App Router executive UI    (depends on interceptor + router)
+apps/site              @ai-finops/site          marketing site + ROI calculator    (depends on interceptor + router; never on dashboard)
 ```
 
 ## Commands
@@ -32,7 +33,8 @@ apps/dashboard         @ai-finops/dashboard     Next.js App Router executive UI 
 | Record test status to `tests.json` | `npm run record-tests` |
 | Build libraries + dashboard | `npm run build` |
 | Parse a Claude Code log (CLI) | `npm run finops -- <file-or-dir> [--json] [--format payload]` |
-| Dashboard dev server | `npm run dev --workspace @ai-finops/dashboard` |
+| Dashboard dev server (port 3000) | `npm run dev --workspace @ai-finops/dashboard` |
+| Marketing site dev server (port 3001) | `npm run dev --workspace @ai-finops/site` |
 | Full bootstrap (install → test → typecheck → boot) | `./init.sh` (`./init.sh --no-dev` skips the server) |
 
 ## TypeScript rules (strict, non-negotiable)
@@ -67,3 +69,13 @@ apps/dashboard         @ai-finops/dashboard     Next.js App Router executive UI 
 - Next 16 does not lint during `next build`. `npm run build` therefore runs `eslint .` first.
 - Stop a production server with `pkill -f next-server`.
 - Unit tests prove logic, not pixels or hydration: after UI changes, build, serve and look at it in a browser.
+
+## Site notes (`apps/site`)
+
+- The same determinism rule applies in `apps/site/src/lib` (seeded stream, no `Math.random`, no clock, no comparator shuffles);
+  `apps/site/test/determinism.test.ts` enforces it and pins the opening figures.
+- The site imports `@ai-finops/interceptor` and `@ai-finops/router` only. Pricing and routing are never re-implemented there.
+- Test counts on the page come from `tests.json` at build time. Run `npm run record-tests` before `npm run build`.
+- Copy rules: no claims the code cannot back (no hosted service, no "zero latency"). The calculator is a model and says so.
+- Dark theme only. Brief-pinned tokens live in `src/app/globals.css`; cyan is for interactive/system accents, emerald for savings,
+  and the two are never used as adjacent chart series (they fail the colour-distance check).

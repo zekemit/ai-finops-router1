@@ -3,15 +3,16 @@ AI-FINOPS-ROUTER — PROGRESS TRACKER
 Update this file at the end of every phase, in the same commit as the work.
 Resume rule: continue from the first unchecked [ ] item.
 
-CURRENT PHASE : 4 (complete) -> ALL PHASES DONE
+CURRENT PHASE : 5 (complete: marketing site + interactive suite)
 LAST UPDATED  : 2026-11-25
 BRANCH        : main
+REMOTE        : origin = https://github.com/zekemit/ai-finops-router1 (phases 1-4 pushed; phase 5 committed locally, NOT pushed)
 
 ENVIRONMENT NOTES
 -----------------
 - Node v22.23.5, npm 10.9.9 (workspaces), pnpm 10.28.0 available (npm is canonical here)
 - git identity: Claude <noreply@anthropic.com> (pre-configured, left unchanged)
-- gh CLI: NOT AUTHENTICATED (GH_TOKEN present but invalid). No remote configured. Non-blocking.
+- gh CLI: NOT AUTHENTICATED (GH_TOKEN present but a placeholder). Pushing works through the session's repo-scoped git proxy.
 
 PHASE 1 — REMOTE GIT & STATE INITIALIZATION
 -------------------------------------------
@@ -127,7 +128,40 @@ HONEST READING OF THE DEMO NUMBERS
     not a finding. Real numbers require pointing `npm run finops` at real logs.
   - Script dollars depend on the contextTokens the simulator assigns each task (a conservative 0 unless stated).
 
+PHASE 5 — MARKETING SITE AND INTERACTIVE SUITE (apps/site)  [COMPLETE]
+-----------------------------------------------------------------------
+[x] apps/site (@ai-finops/site, port 3001): Next 16 + Tailwind 4 + motion + lucide. Imports ONLY @ai-finops/interceptor and
+    @ai-finops/router (a test checks the import specifiers); it never reaches into apps/dashboard
+[x] Hero: radial gradient + grid backdrop, live status pills fed from tests.json at build time, Deploy Router (opens a drawer of the
+    real quickstart commands) and Explore Monorepo
+[x] ROI calculator: agents, prompt tokens per agent per day, cache hit rate, model, mechanical share, value per agent-day ->
+    monthly P&L, gross margin before/after, margin and cost multipliers, cache break-even warning. Prices come from the interceptor's table
+[x] 12-column architecture bento: interceptor / router / dashboard cards with real test counts, dashboard screenshot with pointer tilt
+[x] Log-stream HUD: a seeded simulated session parsed through the real interceptor de-dup (message.id|requestId, largest output wins)
+    and real router rules; new / dup / script verdicts, raw JSONL toggle, 1x/3x, pause/replay, running totals
+[x] Engineering deep-dive drawer (3 tabs): the 4x overcount (interactive), cross-engine determinism (the real diff), orchestration rules
+[x] Accessibility: modal drawer with focus trap + inert background + scroll lock + focus restore; reduced motion honoured (stream starts
+    paused, entrance animation off); safe-area insets; 44px sliders on coarse pointers; axe clean (page and drawer)
+[x] 96 site tests / 7 files (roi, logstream, stream-engine, repo-facts, determinism, sample, error-boundary)
+[x] tests.json regenerated: 515/515 (interceptor 158, router 170, dashboard 91, site 96)
+[x] 34 headless-Chromium checks against the production build, console clean in desktop, reduced-motion and mobile (390px) contexts
+
+BUGS FOUND BY RUNNING IT (not by unit tests)
+  - axe aria-allowed-role: role="dialog" on <aside> is invalid -> the drawer is a div.
+  - Touch targets under 36px (footer links 23px, wordmark 24px, sliders 28px) -> enlarged.
+  - Mobile stream rows truncated "block 2/3" to "block ..." -> the key now truncates and the block label does not.
+  - "Reset to defaults" looked $4 off in a check; proved a timing artifact (the number spring was still settling), exact once settled.
+
+HONEST LIMITS (site)
+  - Dark theme only, as the brief specified. No light theme exists.
+  - The calculator is a MODEL. Output tokens are assumed to be 3% of prompt tokens, cache misses are billed as 5-minute writes, and a script
+    is assumed to cost as much as an average task. The page says so. It is not a quote.
+  - The log stream is SIMULATED data; parsing, pricing and routing are the real packages.
+  - Page performance figures (FCP ~160ms, 225KB JS) were measured on localhost only and are indicative, not a field result.
+  - Task-call lineage attribution is still unverified against a real subagent log (see Phase 2); the deep-dive says so.
+  - "Deploy Router" shows self-host commands. There is no hosted service and the page does not claim one.
+
 OPERATIONAL NOTES
   - Next 16 no longer lints during `next build`; `npm run build` runs `eslint .` first to keep the zero-lint-errors guarantee.
   - To stop a production server use `pkill -f next-server` (the process is named next-server, not "next start").
-  - gh CLI was unauthenticated all session (invalid GH_TOKEN); no remote exists, so nothing was pushed.
+  - The site reads tests.json at build time: run `npm run record-tests` BEFORE `npm run build` or the pills show stale counts.

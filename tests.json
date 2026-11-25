@@ -1,9 +1,9 @@
 {
   "generatedBy": "npm run record-tests",
-  "generatedAt": "2026-11-25T15:59:12.219Z",
+  "generatedAt": "2026-11-25T16:51:03.726Z",
   "summary": {
-    "total": 419,
-    "passed": 419,
+    "total": 515,
+    "passed": 515,
     "failed": 0,
     "skipped": 0
   },
@@ -77,6 +77,73 @@
           "status": "passed",
           "total": 21,
           "passed": 21,
+          "failed": 0,
+          "skipped": 0
+        }
+      ],
+      "failures": []
+    },
+    "@ai-finops/site": {
+      "status": "passed",
+      "phase": "phase5",
+      "total": 96,
+      "passed": 96,
+      "failed": 0,
+      "skipped": 0,
+      "files": [
+        {
+          "file": "test/determinism.test.ts",
+          "status": "passed",
+          "total": 14,
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/error-boundary.test.tsx",
+          "status": "passed",
+          "total": 5,
+          "passed": 5,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/logstream.test.ts",
+          "status": "passed",
+          "total": 14,
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/repo-facts.test.ts",
+          "status": "passed",
+          "total": 9,
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/roi.test.ts",
+          "status": "passed",
+          "total": 35,
+          "passed": 35,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/sample.test.ts",
+          "status": "passed",
+          "total": 3,
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/stream-engine.test.ts",
+          "status": "passed",
+          "total": 16,
+          "passed": 16,
           "failed": 0,
           "skipped": 0
         }

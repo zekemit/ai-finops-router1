@@ -1,0 +1,36 @@
+{
+  "name": "@ai-finops/site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Marketing and product site for ai-finops-router: a live ROI model, an interceptor log stream, and the engineering deep-dive.",
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "eslint . && next build",
+    "start": "next start -p 3001",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-finops/interceptor": "*",
+    "@ai-finops/router": "*",
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource-variable/jetbrains-mono": "5.3.0",
+    "lucide-react": "1.80.0",
+    "motion": "14.14.0",
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.5",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/react": "16.3.3",
+    "@types/react": "19.3.3",
+    "@types/react-dom": "19.3.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.4.6",
+    "jsdom": "31.0.1",
+    "tailwindcss": "4.3.5"
+  }
+}

@@ -5,13 +5,14 @@ caching saves, and which tasks never needed a frontier model in the first place.
 
 ![The executive dashboard after three simulated sprints](docs/dashboard.jpg)
 
-Three packages, each usable on its own:
+Three packages and a marketing site, each usable on its own:
 
 | Package | Job |
 |---|---|
 | [`packages/interceptor`](packages/interceptor) | Reads Claude Code JSONL session logs and multi-agent API payloads. Computes exact per-call cost, cache hit rate, latency and **cost per subagent** (`PM_Agent`, `Architect_Agent`, `Security_Agent`, `Release_Agent`). Detects runaway loops. Has a CLI. |
 | [`packages/router`](packages/router) | Sits in front of the model. Answers purely mechanical tasks (lint, JSON, grep, test-output summaries) with local scripts **before any LLM call**, and logs the dollars and tokens each one avoided. |
 | [`apps/dashboard`](apps/dashboard) | Next.js executive UI with a live multi-agent simulator. Runs the real router and loop detector on every simulated task. |
+| [`apps/site`](apps/site) | Landing page and interactive suite: ROI calculator, architecture bento, a log-stream HUD that runs the real de-duplication, and an engineering deep-dive. Serves on port 3001. |
 
 ## Quickstart
 
@@ -21,6 +22,12 @@ Three packages, each usable on its own:
 
 Installs dependencies, runs every test, typechecks, then serves the dashboard at <http://localhost:3000>.
 Add `--no-dev` to stop before starting the server.
+
+The marketing site is a separate app on port 3001:
+
+```bash
+npm run dev --workspace @ai-finops/site
+```
 
 Or step by step:
 

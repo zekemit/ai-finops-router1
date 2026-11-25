@@ -1,0 +1,238 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Inter Variable", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  --color-canvas: #0a0c10;
+  --color-panel: #161b22;
+  --color-raised: #1c2128;
+  --color-ink: #e6edf3;
+  --color-ink-2: #9ba7b4;
+  --color-ink-3: #8b949e;
+  --color-cyan: #06b6d4;
+  --color-emerald: #34d399;
+  --color-critical: #eb6263;
+}
+
+:root {
+  color-scheme: dark;
+  /* Spring easing without a library: overshoots like a damped spring, settles in ~500ms. */
+  --spring: linear(0, 0.2 6%, 0.62 15%, 0.92 25%, 1.06 38%, 1.04 50%, 0.99 66%, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  background: var(--color-canvas);
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  font-feature-settings: "cv11", "ss03";
+  -webkit-font-smoothing: antialiased;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: rgb(6 182 212 / 0.35);
+}
+
+/* Glass: a translucent panel on the obsidian canvas. Border and highlight, never a drop shadow. */
+.glass {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0.02));
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(20px) saturate(1.4);
+}
+
+.panel {
+  background: var(--color-panel);
+  border: 1px solid rgb(255 255 255 / 0.1);
+}
+
+/* HUD brackets: two corner ticks that mark a surface as live telemetry. */
+.hud {
+  position: relative;
+}
+.hud::before,
+.hud::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid rgb(6 182 212 / 0.7);
+  pointer-events: none;
+}
+.hud::before {
+  top: -1px;
+  left: -1px;
+  border-right: 0;
+  border-bottom: 0;
+  border-top-left-radius: inherit;
+}
+.hud::after {
+  right: -1px;
+  bottom: -1px;
+  border-left: 0;
+  border-top: 0;
+  border-bottom-right-radius: inherit;
+}
+
+.backdrop-grid {
+  background-image: linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 30%, transparent 75%);
+}
+
+/* Range inputs: native element (keyboard and screen-reader behaviour for free), restyled. */
+.rng {
+  --pct: 50%;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 32px;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+@media (pointer: coarse) {
+  .rng {
+    height: 44px;
+  }
+}
+.rng::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-cyan) var(--pct), rgb(255 255 255 / 0.14) var(--pct));
+}
+.rng::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.14);
+}
+.rng::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-cyan);
+}
+.rng::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -8px;
+  border-radius: 999px;
+  border: 0;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgb(6 182 212 / 0.22), 0 2px 8px rgb(0 0 0 / 0.55);
+  transition: transform 0.45s var(--spring), box-shadow 0.45s var(--spring);
+}
+.rng::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 0;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgb(6 182 212 / 0.22), 0 2px 8px rgb(0 0 0 / 0.55);
+  transition: transform 0.45s var(--spring), box-shadow 0.45s var(--spring);
+}
+.rng:hover::-webkit-slider-thumb,
+.rng:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 7px rgb(6 182 212 / 0.28), 0 2px 8px rgb(0 0 0 / 0.55);
+}
+.rng:active::-webkit-slider-thumb {
+  transform: scale(1.2);
+}
+.rng:active::-moz-range-thumb {
+  transform: scale(1.2);
+}
+.rng:focus-visible {
+  outline: none;
+}
+.rng:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 3px;
+}
+
+/* One entrance for the hero; one row-in for the live terminal. Transform and opacity only. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  animation: rise 0.9s var(--spring) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes row-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.row-in {
+  animation: row-in 0.28s ease-out both;
+}
+
+@keyframes beat {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.beat {
+  animation: beat 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .rise,
+  .row-in,
+  .beat {
+    animation: none;
+  }
+  .rng::-webkit-slider-thumb,
+  .rng::-moz-range-thumb {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .glass,
+  .panel {
+    border-color: rgb(255 255 255 / 0.35);
+  }
+}
