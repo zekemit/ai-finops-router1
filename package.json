@@ -1,0 +1,27 @@
+{
+  "name": "ai-finops-router",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI token & unit-economics observability dashboard and deterministic router for multi-agent Claude Code workflows.",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present && tsc -p tsconfig.scripts.json --noEmit",
+    "build": "npm run build --workspaces --if-present",
+    "record-tests": "tsx scripts/record-tests.ts",
+    "finops": "tsx packages/interceptor/src/bin.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.7",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "5.1.2"
+  }
+}

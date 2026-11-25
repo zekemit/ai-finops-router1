@@ -31,6 +31,7 @@ apps/dashboard         @ai-finops/dashboard     Next.js App Router executive UI 
 | Typecheck everything | `npm run typecheck` |
 | Record test status to `tests.json` | `npm run record-tests` |
 | Build libraries + dashboard | `npm run build` |
+| Parse a Claude Code log (CLI) | `npm run finops -- <file-or-dir> [--json] [--format payload]` |
 | Dashboard dev server | `npm run dev --workspace @ai-finops/dashboard` |
 | Full bootstrap (install → test → typecheck → boot) | `./init.sh` (`./init.sh --no-dev` skips the server) |
 

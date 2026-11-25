@@ -1,12 +1,111 @@
 {
   "generatedBy": "npm run record-tests",
-  "generatedAt": null,
-  "summary": { "total": 0, "passed": 0, "failed": 0, "skipped": 0 },
-  "phases": {
-    "phase1": { "note": "no code yet; state trackers only" },
-    "phase2": { "package": "@ai-finops/interceptor", "status": "pending" },
-    "phase3": { "package": "@ai-finops/router", "status": "pending" },
-    "phase4": { "package": "@ai-finops/dashboard", "status": "pending" }
+  "generatedAt": "2026-11-25T15:22:38.697Z",
+  "summary": {
+    "total": 158,
+    "passed": 158,
+    "failed": 0,
+    "skipped": 0
   },
-  "suites": []
+  "packages": {
+    "@ai-finops/interceptor": {
+      "status": "passed",
+      "phase": "phase2",
+      "total": 158,
+      "passed": 158,
+      "failed": 0,
+      "skipped": 0,
+      "files": [
+        {
+          "file": "test/aggregate.test.ts",
+          "status": "passed",
+          "total": 12,
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/analytics.test.ts",
+          "status": "passed",
+          "total": 15,
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/architecture.test.ts",
+          "status": "passed",
+          "total": 7,
+          "passed": 7,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/attribution.test.ts",
+          "status": "passed",
+          "total": 17,
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/cli.test.ts",
+          "status": "passed",
+          "total": 15,
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/cost.test.ts",
+          "status": "passed",
+          "total": 25,
+          "passed": 25,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/format.test.ts",
+          "status": "passed",
+          "total": 16,
+          "passed": 16,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/hash.test.ts",
+          "status": "passed",
+          "total": 5,
+          "passed": 5,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/jsonl-parser.test.ts",
+          "status": "passed",
+          "total": 27,
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/payload-parser.test.ts",
+          "status": "passed",
+          "total": 13,
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0
+        },
+        {
+          "file": "test/report.test.ts",
+          "status": "passed",
+          "total": 6,
+          "passed": 6,
+          "failed": 0,
+          "skipped": 0
+        }
+      ],
+      "failures": []
+    }
+  }
 }

@@ -3,7 +3,7 @@ AI-FINOPS-ROUTER — PROGRESS TRACKER
 Update this file at the end of every phase, in the same commit as the work.
 Resume rule: continue from the first unchecked [ ] item.
 
-CURRENT PHASE : 1 (complete) -> next: PHASE 2
+CURRENT PHASE : 2 (complete) -> next: PHASE 3 (router)
 LAST UPDATED  : 2026-11-25
 BRANCH        : main
 
@@ -26,17 +26,36 @@ PHASE 1 — REMOTE GIT & STATE INITIALIZATION
 [x] Initial commit: "chore: initialize repository, CLAUDE.md, and state trackers"
 [x] gh auth status checked -> unauthenticated (reported, non-blocking)
 
-PHASE 2 — TEST-DRIVEN FOUNDATION & INTERCEPTOR (packages/interceptor)
----------------------------------------------------------------------
-[ ] Root package.json (workspaces: packages/*, apps/*), tsconfig.base.json, vitest config
-[ ] Strict types: AgentName, TelemetryEvent, TokenUsage, ModelPricing
-[ ] Pricing table + cost calculator (input/output/cache-read/cache-write)
-[ ] Cache hit-rate + cache savings calculation
-[ ] Subagent attribution (PM_Agent, Architect_Agent, Security_Agent, Release_Agent)
-[ ] Claude Code JSONL session-log parser + CLI
-[ ] Tests written first, watched failing, then passing
-[ ] scripts/record-tests -> tests.json
-[ ] Commit: "feat(interceptor): implement token telemetry parser and cost calculator"
+PHASE 2 — TEST-DRIVEN FOUNDATION & INTERCEPTOR (packages/interceptor)  [COMPLETE]
+-------------------------------------------------------------------------------
+[x] Root package.json (workspaces: packages/*, apps/*), tsconfig.base.json (strict + noUncheckedIndexedAccess + exactOptionalPropertyTypes)
+[x] Strict types: AgentName, AgentLabel, TelemetryEvent, TokenUsage, ParseResult
+[x] Pricing table + cost calculator (input / output / cache-read / 5m-write / 1h-write)
+[x] Cache hit-rate + cache savings vs. no-cache baseline (can go negative: write premium is real cost)
+[x] Subagent attribution: explicit tags + Task-call lineage (sidechain-only) -> PM/Architect/Security/Release/Unattributed
+[x] Claude Code JSONL parser, API-payload parser (array or NDJSON), CLI (`npm run finops -- <path>`)
+[x] Analytics: burn rate ($/min, trailing window) + runaway-loop detection (identical consecutive calls)
+[x] Tests written first, watched failing (missing module), then passing: 158 tests / 11 files
+[x] Mutation-checked 6 critical behaviours (dedupe, sidechain rule, 1h tier, loop agent boundary,
+    burn-rate window edge, token-weighted hit rate): every mutant killed by >=1 test
+[x] scripts/record-tests.ts -> tests.json (verified to record failures + exit 1, and passes + exit 0)
+[x] Commit: "feat(interceptor): implement token telemetry parser and cost calculator"
+
+FINDINGS THAT SHAPED THE DESIGN (verified against a real Claude Code session log on this machine)
+  - Real logs write ONE LINE PER CONTENT BLOCK, each repeating the same usage. Summing lines overcounts
+    ~4x (real log: naive $13.61 vs deduped $3.21; independent raw-node recompute = $3.2068). Parser dedupes
+    on message.id|requestId and keeps the largest output_tokens.
+  - Cache writes have two TTL tiers (5m = 1.25x input, 1h = 2x input); logs carry cache_creation.ephemeral_*.
+    Real session used the 1h tier, so a flat 1.25x would have undercharged.
+  - Cache-READ rate is model-specific (0.025x-0.1x of input). Encoded per model, not as a flat 10%.
+
+KNOWN LIMITATIONS (do not paper over)
+  - Subagent attribution via Task-call lineage is UNVERIFIED against real subagent logs: the only real log
+    available had no sidechain lines. It is covered by synthetic fixtures built from the documented fields.
+  - Pricing: 8 models fully documented; 5 older models (opus-4-6/4-7/4-8, sonnet-4-6, haiku-4-5) carry an
+    ASSUMED 0.1x cache-read rate and are flagged source:"assumed" in every report. Models absent from the
+    table (e.g. haiku-5-5, which has a >100K-token price tier) are reported as UNPRICED, never guessed.
+  - Fast-mode (speed:"fast") price multipliers are not modelled.
 
 PHASE 3 — DETERMINISTIC ROUTER (packages/router)
 ------------------------------------------------

@@ -1,0 +1,17 @@
+{
+  "name": "@ai-finops/interceptor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Telemetry & cost engine: parses Claude Code JSONL logs and multi-agent API payloads into exact per-agent unit economics.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "cli": "tsx src/bin.ts"
+  }
+}
