@@ -1,0 +1,12 @@
+{
+  "generatedBy": "npm run record-tests",
+  "generatedAt": null,
+  "summary": { "total": 0, "passed": 0, "failed": 0, "skipped": 0 },
+  "phases": {
+    "phase1": { "note": "no code yet; state trackers only" },
+    "phase2": { "package": "@ai-finops/interceptor", "status": "pending" },
+    "phase3": { "package": "@ai-finops/router", "status": "pending" },
+    "phase4": { "package": "@ai-finops/dashboard", "status": "pending" }
+  },
+  "suites": []
+}
